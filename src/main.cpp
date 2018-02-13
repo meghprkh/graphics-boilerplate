@@ -15,6 +15,7 @@ GLFWwindow *window;
 Ball ball1, ball2;
 
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
+float camera_rotation_angle = 0;
 
 Timer t60(1.0 / 60);
 
@@ -29,16 +30,16 @@ void draw() {
     glUseProgram (programID);
 
     // Eye - Location of camera. Don't change unless you are sure!!
-    // glm::vec3 eye ( 5*cos(camera_rotation_angle*M_PI/180.0f), 0, 5*sin(camera_rotation_angle*M_PI/180.0f) );
+    glm::vec3 eye ( 5*cos(camera_rotation_angle*M_PI/180.0f), 0, 5*sin(camera_rotation_angle*M_PI/180.0f) );
     // Target - Where is the camera looking at.  Don't change unless you are sure!!
-    // glm::vec3 target (0, 0, 0);
+    glm::vec3 target (0, 0, 0);
     // Up - Up vector defines tilt of camera.  Don't change unless you are sure!!
-    // glm::vec3 up (0, 1, 0);
+    glm::vec3 up (0, 1, 0);
 
     // Compute Camera matrix (view)
-    // Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
+    Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
     // Don't change unless you are sure!!
-    Matrices.view = glm::lookAt(glm::vec3(0, 0, 3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)); // Fixed camera for 2D (ortho) in XY plane
+    // Matrices.view = glm::lookAt(glm::vec3(0, 0, 3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)); // Fixed camera for 2D (ortho) in XY plane
 
     // Compute ViewProject matrix as view/camera might not be changed for this frame (basic scenario)
     // Don't change unless you are sure!!
@@ -69,6 +70,7 @@ void tick_elements() {
         ball1.speed = -ball1.speed;
         ball2.speed = -ball2.speed;
     }
+    camera_rotation_angle += 1;
 }
 
 /* Initialize the OpenGL rendering properties */
