@@ -12,7 +12,7 @@ GLFWwindow *window;
 * Customizable functions *
 **************************/
 
-Ball ball1, ball2;
+Ball ball1;
 
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 float camera_rotation_angle = 0;
@@ -52,7 +52,6 @@ void draw() {
 
     // Scene render
     ball1.draw(VP);
-    ball2.draw(VP);
 }
 
 void tick_input(GLFWwindow *window) {
@@ -65,11 +64,6 @@ void tick_input(GLFWwindow *window) {
 
 void tick_elements() {
     ball1.tick();
-    ball2.tick();
-    if (detect_collision(ball1.bounding_box(), ball2.bounding_box())) {
-        ball1.speed = -ball1.speed;
-        ball2.speed = -ball2.speed;
-    }
     camera_rotation_angle += 1;
 }
 
@@ -79,9 +73,7 @@ void initGL(GLFWwindow *window, int width, int height) {
     /* Objects should be created before any other gl function and shaders */
     // Create the models
 
-    ball1       = Ball(2, 0, COLOR_RED);
-    ball2       = Ball(-2, 0, COLOR_RED);
-    ball2.speed = -ball2.speed;
+    ball1       = Ball(0, 0, COLOR_RED);
 
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");
