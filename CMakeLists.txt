@@ -13,9 +13,15 @@ pkg_check_modules(GLEW REQUIRED glew)
 include_directories(${GLEW_INCLUDE_DIRS})
 target_link_libraries (${PROJECT_NAME} ${GLEW_LIBRARIES})
 
-pkg_check_modules(GL REQUIRED gl)
-include_directories(${GL_INCLUDE_DIRS})
-target_link_libraries (${PROJECT_NAME} ${GL_LIBRARIES})
+if (NOT APPLE)
+  pkg_check_modules(GL REQUIRED gl)
+  include_directories(${GL_INCLUDE_DIRS})
+  target_link_libraries (${PROJECT_NAME} ${GL_LIBRARIES})
+endif()
+
+if (APPLE)
+  target_link_libraries(${PROJECT_NAME} "-framework OpenGL")
+endif()
 
 # pkg_check_modules(AO REQUIRED ao)
 # include_directories(${AO_INCLUDE_DIRS})
